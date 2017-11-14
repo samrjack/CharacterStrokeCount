@@ -1,10 +1,16 @@
+'''
+Downloads a given url, removes all duplicate and non-Chinese characters, and
+returns a single string containing everything.
+'''
 import urllib2
 import char_util as cu
 
+'''Journey to the west'''
 #DEFAULT_URL = "http://www.gutenberg.org/cache/epub/23962/pg23962.html"
+
+'''Some shorter (but still long) website for testing purposes'''
 DEFAULT_URL = "http://www.humancomp.org/unichtm/linjilu8.htm"
 
-# map(lambda x: make_char(x, 32), add_T_and_S(get_data()))
 '''
 get_data
     Loads a given file from a url, removes duplicates, and writes everything

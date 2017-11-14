@@ -1,3 +1,10 @@
+'''
+python 2 only!!! until PIL and pygame release python 3 compatible code,
+this must be run in python 2. Thankfully however, this produces files that
+can of course be read anywhere.
+
+Handles the functionality of turning characters into pictures.
+'''
 import os
 import pygame
 import codecs
