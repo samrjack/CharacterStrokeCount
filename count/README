@@ -1,0 +1,18 @@
+This file, "totalstrokes.txt", contains pairs of unicode values for all 
+Chinese characters and their associated stroke count.
+
+This file was originally obtained from Stephen Politzer-Ahles on his
+website: www.mypolyuweb.hk/~sjpolit/cgi-bin/strokecounter.pl
+
+The file can be gotten by downloading his file "strokecounter_batchmode.zip"
+which comes with this file and some other stuff such as a pearl script
+to read the file and some test files. The other files were deleted
+as they were not relevant to this project.
+
+Stephen says he initially got this file from Unihan database at
+"www.unicode.org/charts/unihan.html" however I could not find it when
+I myself looked there.
+
+Although I myself cannot verify that all of the data in this file is
+accurate, in my testing, I have found no errors and feel comfortable
+assuming this as a basemark for any work going forward.
