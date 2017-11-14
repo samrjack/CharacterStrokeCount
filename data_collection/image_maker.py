@@ -66,7 +66,7 @@ def char_to_pic(character, fontFile, size = 64, offset = (0,0)):
     pygame.init()
     font = pygame.font.Font(os.path.join("./fonts", fontFile), size)
     text = character #.decode('utf-8')
-    imgName = "./set/" + text + "." \
+    imgName = "../data/" + text + "." \
         + str(get_stroke_count(text)) + "." \
         + os.path.splitext(fontFile)[0] \
         + ".png"
