@@ -11,6 +11,8 @@ import codecs
 import StringIO
 from char_util import get_stroke_count
 from PIL import Image
+from skimage.io import imread, imsave
+from skimage.color import rgb2gray
 
 '''
 dictionary of all fonts that can be used with the characters.
@@ -83,7 +85,7 @@ render
     offset - the offset of the character in the picture.
 '''
 def render(text, font, imgName, dims, offset = (0, 0)):
-    im = Image.new("RGB", dims, (255, 255, 255))
+    im = Image.new("L", dims, 255)
     rtext = font.render(text, True, (0, 0, 0), (255, 255, 255))
     sio = StringIO.StringIO()
     pygame.image.save(rtext, sio)
