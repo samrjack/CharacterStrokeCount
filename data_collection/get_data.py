@@ -1,3 +1,6 @@
+'''
+Main file for producing data
+'''
 import image_maker as im
 import char_util as cu
 import download_data as d
