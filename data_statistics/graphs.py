@@ -1,28 +1,33 @@
-import os
-import matplotlib.pyplot as plt; plt.rcdefaults()
+'''
+graphs.py
+    This file contains many functions that create graphs and other visuals
+    used to view the character set and visualize its distribution or 
+    characteristics
+'''
+
+import matplotlib.pyplot as plt
 import numpy as np
-import sklearn as sk
-from skimage.io import imread
+import data_util as du
 from itertools import groupby
 
-def get_file_names(list_of_stroke_counts=False):
-    file_names = os.listdir("../data/")
-    if list_of_stroke_counts is False:
-        return file_names
-    desired_strokes = [str(c) for c in list_of_stroke_counts]
-    return [file_name for file_name in file_names if file_name.split(".")[0] in desired_strokes]
+'''
+show_weights_of_svd
+    Creats pictures (stored in the figures folder) of the first 9 (or fewer)
+    principal components of the given stroke counts. These pictures show the
+    strength of each pixel in the 32x32 images.
 
-def get_pictures_with_stroke_count(list_of_stroke_counts=[]):
-    files = get_file_names(list_of_stroke_counts)
-    return np.array(list(map(import_photo, files)))
+    stroke_count - A list of all the stroke counts to display. Each stroke count
+        is put into its own file and shown in its own figure window.
+        ex: [4,6,8] shows pca of characters with 4, 6, and 8 stokes.
 
-def import_photo(file_name):
-    image = imread("../data/" + file_name)
-    return image.flatten()/255
+    show - Shows the picture in the display. Default action is to only save
+        picture to a file.
 
+    return - This function has no return value.
+'''
 def show_weights_of_svd(stroke_counts, show=False):
     for stroke_count in stroke_counts:
-        feature_array = get_pictures_with_stroke_count([stroke_count])
+        feature_array = du.get_pictures_with_stroke_count([stroke_count])
         if len(feature_array) < 1:
             continue
         U,s,V = np.linalg.svd(feature_array)
@@ -41,8 +46,18 @@ def show_weights_of_svd(stroke_counts, show=False):
         plt.show()
     plt.close('all')
 
-def get_data_bar_graph(show=False):
-    files = get_file_names()
+'''
+show_data_bar_graph
+    Creates a bar graph (stored in a file in the figures folder) showing
+    the data distribution of the test character set.
+
+    show - Shows the graphy in the display. Default action is to only save
+        picture to a file.
+
+    return - This function has no return value.
+'''
+def show_data_bar_graph(show=False):
+    files = du.get_file_names()
     files = [c.split(".")[0] for c in files]
     files.sort()
     a = [(int(key),len(list(group))) for key, group in groupby(files)]
@@ -61,5 +76,3 @@ def get_data_bar_graph(show=False):
     if(show):
         plt.show()
     plt.close('all')
-    
-#get_data_bar_graph()
