@@ -1,0 +1,5 @@
+This module contains files and functions designed to import and create training
+data.
+
+To just import default data, just run get_data.py in python 2. pthon3 will not work
+as pygame has yet to be ported over and is essential to this sections execution.
