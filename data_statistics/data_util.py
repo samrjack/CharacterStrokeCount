@@ -62,7 +62,7 @@ def get_pictures(file_list):
     numpy.array(numpy.array(float)) : len(file_list) x sizesize of file 
         all of the files representing rows in a large array.
     '''
-    return np.array(list(map(import_photo, file_list)))
+    return np.array(map(import_photo, file_list))
 
 def import_photo(file_name):
     '''
