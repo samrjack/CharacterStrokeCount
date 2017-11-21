@@ -62,7 +62,7 @@ def get_pictures(file_list):
     numpy.array(numpy.array(float)) : len(file_list) x sizesize of file 
         all of the files representing rows in a large array.
     '''
-    return np.array(map(import_photo, file_list))
+    return np.array(list(map(import_photo, file_list)))
 
 def import_photo(file_name):
     '''
@@ -97,4 +97,4 @@ def get_file_stroke_count(file_name):
     int 
         The file's character's stroke count.
     '''
-    return file_name.split(".")[0]
+    return int(file_name.split(".")[0])
