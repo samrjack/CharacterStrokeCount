@@ -82,6 +82,23 @@ def import_photo(file_name):
     image = imread("../data/" + file_name)
     return image.flatten()/np.max(image)
 
+def get_files_stroke_counts(file_names):
+    '''
+    Returns the stroke count of the character depicted in the file.
+    Used so that if the name format chages, don't have to change every function.
+
+    Parameters
+    ----------
+    file_names : [string]
+        A list of filenames using standard file formating for this project.
+
+    Returns
+    -------
+    [int] 
+        A list of the files' characters' stroke count.
+    '''
+    return np.array(list(map(get_file_stroke_count, file_names)))
+
 def get_file_stroke_count(file_name):
     '''
     Returns the stroke count of the character depicted in the file.
