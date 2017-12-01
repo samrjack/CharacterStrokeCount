@@ -32,7 +32,7 @@ def test_models():
 
 	lin_func = simple_linear(X_train[:1000])
 
-	show_error(lin_func, X_test, y_test)
+	#show_error(lin_func, X_test, y_test)
 	#show_error(lambda x: k_nearest_neighbor(X_train, y_train, x, 2), X_test[0:3000], y_test[0:3000])
 
 def show_error(function, X_test, y_test):
