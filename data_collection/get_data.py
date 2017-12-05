@@ -15,7 +15,7 @@ def main():
     for c in ac[count:]:
         print c + " " + str(count)
         count += 1
-        im.make_char(c,32)
+        im.make_char(c,16)
         time.sleep(.01)
 
     # Using map would crash the program for some reason

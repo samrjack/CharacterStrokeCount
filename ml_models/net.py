@@ -34,7 +34,7 @@ def neural_net():
         scale_guess  = lambda _y: round(_y * 100)
 
         # Define model meta parameters
-        learning_rate = 0.00006
+        learning_rate = 0.000006
         num_epoch = 1000
         training_size = 100
 
@@ -64,16 +64,16 @@ def neural_net():
         # y1 = tf.nn.sigmoid(u1)
         y1 = tf.nn.relu_layer(x=inputs, weights=weight1, biases=biases1)
 
-        u2 = tf.add(tf.matmul(u1, weight2), biases2)
+        u2 = tf.add(tf.matmul(y1, weight2), biases2)
         # y2 = tf.nn.sigmoid(u2)
         y2 = tf.nn.relu_layer(x=y1, weights=weight2, biases=biases2)
 
-        u3 = tf.add(tf.matmul(u2, weight3), biases3)
+        u3 = tf.add(tf.matmul(y2, weight3), biases3)
         # y3 = tf.nn.sigmoid(u3)
         y3 = tf.nn.relu_layer(x=y2, weights=weight3, biases=biases3)
 
         u4 = tf.add(tf.matmul(u3, weight4), biases4)
-        output = tf.nn.sigmoid(u4)
+        output = tf.nn.relu_layer(x=y3, weights=weight4, biases=biases4)
 
         loss = tf.nn.l2_loss(output - scale_result(labels))
         optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
@@ -91,14 +91,6 @@ def neural_net():
                         results = np.array([float(y_train[i]) for i in indices])
 
                         _, cost, prediction = sess.run([optimizer, loss, output], feed_dict={inputs: data, labels: results.reshape(-1,n_outputs)})
-
-                        weight1.eval()
-                        weight2.eval()
-                        weight3.eval()
-
-                        biases1.eval()
-                        biases2.eval()
-                        biases3.eval()
 
                         # pred = list(map(scale_guess, prediction.reshape(-1).tolist()))
                         # print(list(zip(pred,results.tolist())), "\n\n")

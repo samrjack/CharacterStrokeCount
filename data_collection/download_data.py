@@ -28,3 +28,6 @@ def get_data(url=DEFAULT_URL):
         completeSet = completeSet.union(filter(lambda c: cu.get_stroke_count(c) > 0, u8Line))
     data.close()
     return "".join(completeSet)
+
+if __name__ == '__main__':
+    get_data()
