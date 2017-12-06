@@ -33,7 +33,6 @@ n_outputs = enc.n_values_.tolist()[0] - 1
 x = tf.placeholder(tf.float32, shape=[None, n_inputs])
 y_ = tf.placeholder(tf.float32, shape=[None, n_outputs])
 
-
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
