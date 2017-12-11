@@ -6,7 +6,7 @@ currentdir = os.path.dirname(os.path.abspath(
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir) 
 
-import data_statistics.data_util as du
+import data_statistics.char_handler as ch
 
 import numpy as np
 import random
@@ -17,34 +17,20 @@ import matplotlib.pyplot as plt
 import itertools as it
 
 def neural_net():
-    # Get file names for training data.
-    training_data = du.get_file_names()
-    training_data = [x for x in training_data if 10 < du.get_file_stroke_count(x) < 13]
 
-    # Shuffle data so files are in a random order.
-    random.seed(42)
-    random.shuffle(training_data)
+    image_size = 32
+    photos = ch.CharacterManager(image_size)
 
     enc = OneHotEncoder()
     enc.fit(np.array(list(range(1,34))).reshape(-1,1).tolist())
 
-    all_y = np.array(list(map(du.get_file_stroke_count, training_data)))
-    all_y = enc.transform(all_y.reshape(-1,1)).toarray().tolist()
-
-    # Split into training and test sets
-    X_train, X_test, y_train, y_test = train_test_split(
-                    training_data
-                    , all_y
-                    , test_size=0.1
-                    , random_state=42)
-
     # Define model meta parameters
-    learning_rate = 0.06
-    num_epoch = 50000
+    learning_rate = 0.1
+    num_epoch = 5000000
     training_size = 10
 
-    n_inputs = du.import_photo(training_data[0]).shape[0]
-    n_outputs = 33
+    n_inputs = image_size**2
+    n_outputs = enc.n_values_.tolist()[0] - 1
     nodes = [n_inputs, 100, 16, n_outputs]
 
     # Build tensorflow model.
@@ -54,8 +40,8 @@ def neural_net():
     weights = []
     biases  = []
     for i in range(len(nodes) - 1): 
-        weights.append(tf.Variable(tf.random_uniform([nodes[i], nodes[i + 1]], -.1, .1), name=("weights_" + str(i))))
-        biases.append(tf.Variable(tf.random_uniform([nodes[i + 1]], -.1, .1), name=("bias_" + str(i))))
+        weights.append(tf.Variable(tf.random_uniform([nodes[i], nodes[i + 1]], -.5, .5), name=("weights_" + str(i))))
+        biases.append(tf.Variable(tf.random_uniform([nodes[i + 1]], -.5, .5), name=("bias_" + str(i))))
 
     u = [tf.add(tf.matmul(inputs, weights[0]), biases[0])]
     y = [tf.nn.sigmoid(x=u[0])]
@@ -74,28 +60,26 @@ def neural_net():
             sess.run(init)
             for epoch in range(num_epoch):
                     # Pick random samples of x to train with
-                    indices = random.sample(range(len(X_train)), training_size)
-                    data = du.get_pictures([X_train[i] for i in indices])
-                    results = np.array([y_train[i] for i in indices])
+                    batch = photos.training_batch(50)
+                    batch[1] = enc.transform(batch[1]).toarray()
 
                     old_w = weights[-1].eval()
-                    _, cost, prediction = sess.run([optimizer, loss, y[-1]], feed_dict={inputs: data, labels: results.reshape(-1,n_outputs)})
+                    _, cost, prediction = sess.run([optimizer, loss, y[-1]], feed_dict={inputs: batch[0], labels: batch[1]})
 
                     # pred = list(map(scale_guess, prediction.reshape(-1).tolist()))
                     # print(list(zip(pred,results.tolist())), "\n\n")
-                    print(epoch, "/", num_epoch, "--", cost, "--", np.linalg.norm(old_w - weights[-1].eval()))
-
                     if epoch % 1000 == 0:
-                        learning_rate /= 10
+                        print(epoch, "/", num_epoch, "--", cost, "--", np.linalg.norm(old_w - weights[-1].eval()))
+                        learning_rate /= 3
                 
-            data = du.get_pictures(X_test)
-            predictions = sess.run(y[-1], feed_dict={inputs:data})
+            batch = photos.testing_data()
+            predictions = sess.run(y[-1], feed_dict={inputs:batch[0]})
 
-            predList = [round(x) for x in predictions.reshape(-1).tolist()]
+            predList = [list(map(round, x)) for x in predictions.tolist()]
             
-            error = list(zip(y_test, predList))
+            error = list(zip(enc.transform(batch[1]).toarray().tolist(), predList))
             error.sort()
-            percentCorrect = len([x for x in error if x == (1, 1) or x == (0, 0)])/float(len(error))
+            percentCorrect = len([x for x in error if x[0] == x[1]])/float(len(error))
 
 
             print('Percent correct =', percentCorrect * 100, '%')

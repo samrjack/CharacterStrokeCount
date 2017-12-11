@@ -21,12 +21,12 @@ dictionary of all fonts that can be used with the characters.
 The key is the name of the font file. The value is a tuple 
 corresponding to the fonts offset at size 64.
 '''
-fonts = { "fangsongti.ttf"    : ( 0,   0) ,
-          "hanyisentiwen.ttf" : (-6, -35) ,
-          "simsun.ttc"        : ( 0,   0) ,
-          "ximingti.ttc"      : ( 0,   0) ,
-          "xingshuti.ttf"     : ( 0,   0) ,
-          "xinsongti.ttc"     : ( 0,   0) }
+fonts = { "fangsongti.ttf"    : ( 0,   0) }
+          #"hanyisentiwen.ttf" : (-6, -35) ,
+          #"simsun.ttc"        : ( 0,   0) ,
+          #"ximingti.ttc"      : ( 0,   0) ,
+          #"xingshuti.ttf"     : ( 0,   0) ,
+          #"xinsongti.ttc"     : ( 0,   0) }
 
 
 def process_file(filename):

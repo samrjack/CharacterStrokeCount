@@ -1,0 +1,5 @@
+model_checkpoint_path: "model_out3.ckpt"
+all_model_checkpoint_paths: "../34999saved_models/model_out3.ckpt"
+all_model_checkpoint_paths: "../69999saved_models/model_out3.ckpt"
+all_model_checkpoint_paths: "../saved_models/model_out3.ckpt"
+all_model_checkpoint_paths: "model_out3.ckpt"
